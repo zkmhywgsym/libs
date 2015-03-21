@@ -38,42 +38,30 @@ public class PullToRefreshListViewSampleActivity extends Activity {
 
 		listView = (PullToRefreshListView) findViewById(R.id.pull_to_refresh_listview);
 
-		// OPTIONAL: Disable scrolling when list is refreshing
+		//刷新时禁止滚动
 		// listView.setLockScrollWhileRefreshing(false);
-
-		// OPTIONAL: Uncomment this if you want the Pull to Refresh header to show the 'last updated' time
+		
+//		显示最近更新时间
 		// listView.setShowLastUpdatedText(true);
 
-		// OPTIONAL: Uncomment this if you want to override the date/time format of the 'last updated' field
+		// 重写最近更新时间的格
 		// listView.setLastUpdatedDateFormat(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"));
 
-		// OPTIONAL: Uncomment this if you want to override the default strings
+		// 重写显示提示
 		// listView.setTextPullToRefresh("Pull to Refresh");
 		// listView.setTextReleaseToRefresh("Release to Refresh");
 		// listView.setTextRefreshing("Refreshing");
 
-		// MANDATORY: Set the onRefreshListener on the list. You could also use
-		// listView.setOnRefreshListener(this); and let this Activity
-		// implement OnRefreshListener.
+		// 强制：设置刷新监听
 		listView.setOnRefreshListener(new OnRefreshListener() {
 
 			@Override
 			public void onRefresh() {
-				// Your code to refresh the list contents goes here
-
-				// for example:
-				// If this is a webservice call, it might be asynchronous so
-				// you would have to call listView.onRefreshComplete(); when
-				// the webservice returns the data
-				adapter.loadData();
+				//在这刷新数据 
 				
-				// Make sure you call listView.onRefreshComplete()
-				// when the loading is done. This can be done from here or any
-				// other place, like on a broadcast receive from your loading
-				// service or the onPostExecute of your AsyncTask.
-
-				// For the sake of this sample, the code will pause here to
-				// force a delay when invoking the refresh
+				//如果调用异步线程刷新数据，在返回数据后应该调用listView.onRefreshComplete();
+				adapter.loadData();
+				//因此，调用刷新时会暂停
 				listView.postDelayed(new Runnable() {
 
 					
@@ -87,8 +75,6 @@ public class PullToRefreshListViewSampleActivity extends Activity {
 
 		adapter = new PullToRefreshListViewSampleAdapter() {};
 		listView.setAdapter(adapter);
-		
-		// Request the adapter to load the data
 		adapter.loadData();
 
 		// click listener
