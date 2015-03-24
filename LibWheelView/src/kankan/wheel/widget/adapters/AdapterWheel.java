@@ -58,4 +58,10 @@ public class AdapterWheel extends AbstractWheelTextAdapter {
         return adapter.getItem(index);
     }
 
+	@Override
+	public String getCurentValue(int curItemIndex) {
+		
+		return getItemText(curItemIndex).toString();
+	}
+
 }

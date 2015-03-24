@@ -81,5 +81,10 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
     @Override
     public int getItemsCount() {
         return maxValue - minValue + 1;
-    }    
+    }
+
+	@Override
+	public String getCurentValue(int curItemIndex) {
+		return getItemText(curItemIndex).toString();
+	}    
 }
