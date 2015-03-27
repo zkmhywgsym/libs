@@ -86,5 +86,6 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
 	@Override
 	public String getCurentValue(int curItemIndex) {
 		return getItemText(curItemIndex).toString();
-	}    
+	}
+
 }

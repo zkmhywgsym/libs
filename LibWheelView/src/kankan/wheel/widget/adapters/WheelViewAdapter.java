@@ -62,4 +62,7 @@ public interface WheelViewAdapter {
 	 */
 	void unregisterDataSetObserver (DataSetObserver observer);
 	public String getCurentValue(int curItemIndex);
+	public void notifyDataSetChanged();
+	public int getCurrentIndex();
+	public void setCurrentIndex(int index);
 }

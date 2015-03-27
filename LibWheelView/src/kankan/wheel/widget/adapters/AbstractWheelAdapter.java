@@ -71,4 +71,16 @@ public abstract class AbstractWheelAdapter implements WheelViewAdapter {
             }
         }
     }
+    @Override
+    public void notifyDataSetChanged() {
+    	notifyDataChangedEvent();
+    }
+    @Override
+    public void setCurrentIndex(int index) {
+    	
+    }
+    @Override
+    public int getCurrentIndex() {
+    	return 0;
+    }
 }
