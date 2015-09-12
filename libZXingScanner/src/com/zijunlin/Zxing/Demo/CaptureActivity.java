@@ -109,6 +109,7 @@ public class CaptureActivity extends Activity implements Callback, CaptureHandle
 		try
 		{
 			CameraManager.get().openDriver(surfaceHolder);
+			CameraManager.get().setDisplayOrientation(90);
 		}
 		catch (IOException ioe)
 		{

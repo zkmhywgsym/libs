@@ -1,9 +1,13 @@
 package com.zijunlin.Zxing.Demo;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Hashtable;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -12,17 +16,17 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+
 /**
  * @类功能说明: 生成二维码图片示例
  * @作者:饶正勇
  * @时间:2013-4-18上午11:10:42
  * @版本:V1.0
  */
-public class CreateQRImageTest
-{
+public class CreateQRImageTest {
 	private ImageView sweepIV;
 	private int QR_WIDTH = 200, QR_HEIGHT = 200;
-	
+
 	/**
 	 * @方法功能说明: 生成二维码图片,实际使用时要初始化sweepIV,不然会报空指针错误
 	 * @作者:饶正勇
@@ -31,16 +35,16 @@ public class CreateQRImageTest
 	 * @return void
 	 * @throws
 	 */
-	
-	//要转换的地址或字符串,可以是中文
-	public void createQRImage(String url,String path)
+
+	// 要转换的地址或字符串,可以是中文
+	public Bitmap createQRImage(String url,String path)
 	{
 		try
 		{
 			//判断URL合法性
 			if (url == null || "".equals(url) || url.length() < 1)
 			{
-				return;
+				return null;
 			}
 			Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
 			hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
@@ -70,18 +74,39 @@ public class CreateQRImageTest
 			if (!TextUtils.isEmpty(path)) {
 				File dir=new File(path);
 				if (!dir.exists()) {
-					dir.mkdirs();
+					File erweima=new File(path);
+					try {
+						erweima.createNewFile();
+						new FileOutputStream(erweima).write(bitmap2Bytes(bitmap));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}else{
 					if(dir.isDirectory()){
+						File erweima=new File(dir, "erweima.jpg");
+						try {
+							erweima.createNewFile();
+							new FileOutputStream(erweima).write(bitmap2Bytes(bitmap));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						
 					}
 				}
 			}
-			sweepIV.setImageBitmap(bitmap);
+//			sweepIV.setImageBitmap(bitmap);
+			return bitmap;
 		}
 		catch (WriterException e)
 		{
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	public byte[] bitmap2Bytes(Bitmap bm) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		return baos.toByteArray();
 	}
 }
