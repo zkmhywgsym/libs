@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -50,7 +51,7 @@ final class CameraConfigurationManager {
 	/**
 	 * Reads, one time, values from the camera that are needed by the app.
 	 */
-	void initFromCameraParameters(Camera camera) {
+	void initFromCameraParameters(Camera camera) {//TODO
 		Camera.Parameters parameters = camera.getParameters();
 		previewFormat = parameters.getPreviewFormat();
 		previewFormatString = parameters.get("preview-format");
@@ -58,23 +59,24 @@ final class CameraConfigurationManager {
 				+ previewFormatString);
 		WindowManager manager = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
-		Display display = manager.getDefaultDisplay();
-		screenResolution = new Point(display.getWidth(), display.getHeight());
+		DisplayMetrics display = context.getResources().getDisplayMetrics();
+		screenResolution = new Point(display.widthPixels, display.heightPixels);
 		Log.d(TAG, "Screen resolution: " + screenResolution);
-		if (!CameraManager.isLandScope()) {
-			 Point screenResolutionForCamera = new Point();
-			 screenResolutionForCamera.x = screenResolution.x;
-			 screenResolutionForCamera.y = screenResolution.y;
-			 // preview size is always something like 480*320, other 320*480
-			 if (screenResolution.x < screenResolution.y) {
-			 screenResolutionForCamera.x = screenResolution.y;
-			 screenResolutionForCamera.y = screenResolution.x;
-			 }
-			 cameraResolution = getCameraResolution(parameters,
-			 screenResolutionForCamera);
-		}
-
+//		if (!CameraManager.isLandScope()) {
+//			 Point screenResolutionForCamera = new Point();
+//			 screenResolutionForCamera.x = screenResolution.x;
+//			 screenResolutionForCamera.y = screenResolution.y;
+//			 // preview size is always something like 480*320, other 320*480
+//			 if (screenResolution.x < screenResolution.y) {
+//			 screenResolutionForCamera.x = screenResolution.y;
+//			 screenResolutionForCamera.y = screenResolution.x;
+//			 }
+//			 cameraResolution = getCameraResolution(parameters,
+//			 screenResolutionForCamera);
+//		}else{
+//		}
 		cameraResolution = getCameraResolution(parameters, screenResolution);
+
 		Log.d(TAG, "Camera resolution: " + screenResolution);
 	}
 
@@ -92,7 +94,8 @@ final class CameraConfigurationManager {
 		setFlash(parameters);
 		setZoom(parameters);
 		if (!CameraManager.isLandScope()) {
-			setDisplayOrientation(camera, 90);
+//			setDisplayOrientation(camera, 90);
+			camera.setDisplayOrientation(90);
 		}
 		// setSharpness(parameters);
 		camera.setParameters(parameters);

@@ -6,7 +6,7 @@
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 		<activity android:name=".TestActivity"
-			android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden"
+			android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"
 			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 			android:windowSoftInputMode="stateAlwaysHidden">
 			<intent-filter>

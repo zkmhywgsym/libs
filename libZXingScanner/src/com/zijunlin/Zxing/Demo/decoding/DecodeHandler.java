@@ -70,11 +70,11 @@ final class DecodeHandler extends Handler {
    * @param width  The width of the preview frame.
    * @param height The height of the preview frame.
    */
-  private void decode(byte[] data, int width, int height) {
+  private void decode(byte[] data, int width, int height) {//TODO
     long start = System.currentTimeMillis();
     Result rawResult = null;
+    byte[] rotatedData = new byte[data.length];
     if(!CameraManager.isLandScope()){
-			byte[] rotatedData = new byte[data.length];
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++)
 					rotatedData[x * height + height - y - 1] = data[x + y
@@ -84,8 +84,9 @@ final class DecodeHandler extends Handler {
 								// #11
 			width = height;
 			height = tmp;
-    	
+			data=rotatedData;
     }
+    
     
     PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, width, height);
     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
